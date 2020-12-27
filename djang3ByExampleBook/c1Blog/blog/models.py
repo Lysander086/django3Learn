@@ -6,8 +6,9 @@ from django.contrib.auth.models import User
 
 class PublishedManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(status='published')
-
+        return super(PublishedManager, self) \
+            .get_queryset() \
+            .filter(status='published')
 
 
 class Post(models.Model):
@@ -45,4 +46,3 @@ class Post(models.Model):
                        args=[self.publish.year,
                              self.publish.month,
                              self.publish.day, self.slug])
-
