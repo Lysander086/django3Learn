@@ -1,8 +1,8 @@
-clients/clients/config.py
-.vscode/
-
 # python.gitignore + frontend.gitignore
 # Byte-compiled / optimized / DLL files
+
+# put secret config here
+**/appSecret.py
 __pycache__/
 *.py[cod]
 *$py.class

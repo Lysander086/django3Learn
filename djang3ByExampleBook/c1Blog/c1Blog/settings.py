@@ -120,3 +120,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+from c1Blog.appSecret import email_host_password, email_host_user, to_user
+
+# email config
+# reference link: https://stackoverflow.com/questions/18225318/sending-email-using-outlook-smtp
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp-mail.outlook.com'
+EMAIL_HOST_USER = email_host_user
+EMAIL_HOST_PASSWORD = email_host_password
+EMAIL_PORT = 25
+
+
+def send_email_test():
+    from django.core.mail import send_mail
+    send_mail('Django mail', 'This e-mail was sent with Django.', email_host_password, [to_user], fail_silently=False)
