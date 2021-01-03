@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'taggit',
     'django.contrib.sites'
-    , 'django.contrib.sitemaps'
+    , 'django.contrib.sitemaps',
+    'django.contrib.postgres',
 ]
 
 MIDDLEWARE = [
@@ -76,10 +77,13 @@ WSGI_APPLICATION = 'c1Blog.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+from c1Blog.appSecret import postgresSQL_password
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'blog',
+        'USER': 'dbuser',
+        'PASSWORD': postgresSQL_password,
     }
 }
 
