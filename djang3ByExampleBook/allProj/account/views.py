@@ -84,6 +84,9 @@ class PwdResetView(PasswordResetView):
     form_class = ResetForm
 
 
+from .models import Profile
+
+
 def register(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
@@ -94,6 +97,7 @@ def register(request):
             new_user.set_password(
                 user_form.cleaned_data['password'])
             # Save the User object
+            Profile.objects.create(user=new_user)
             new_user.save()
             return render(request,
                           'account/register_done.html',
