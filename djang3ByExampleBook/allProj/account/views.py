@@ -10,6 +10,7 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
+from django.contrib import messages
 
 
 def user_login(request):
@@ -40,50 +41,6 @@ def dashboard(request):
     return render(request, 'account/dashboard.html', {'section': 'dashboard'})
 
 
-# want to : if the provided email doesn't match a user in db, tell user about it
-class PwdResetView(PasswordResetView):
-    class ResetForm(PasswordResetForm):
-        def save(self, domain_override=None,
-                 subject_template_name='registration/password_reset_subject.txt',
-                 email_template_name='registration/password_reset_email.html',
-                 use_https=False, token_generator=default_token_generator,
-                 from_email=None, request=None, html_email_template_name=None,
-                 extra_email_context=None):
-            email = self.cleaned_data["email"]
-            if not domain_override:
-                current_site = get_current_site(request)
-                site_name = current_site.name
-                domain = current_site.domain
-            else:
-                site_name = domain = domain_override
-            from django.contrib.auth import get_user_model
-            UserModel = get_user_model()
-            email_field_name = UserModel.get_email_field_name()
-            users = self.get_users(email)
-
-            if len(users) < 1:
-                pass
-
-            for user in users:
-                user_email = getattr(user, email_field_name)
-                context = {
-                    'email': user_email,
-                    'domain': domain,
-                    'site_name': site_name,
-                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                    'user': user,
-                    'token': token_generator.make_token(user),
-                    'protocol': 'https' if use_https else 'http',
-                    **(extra_email_context or {}),
-                }
-                self.send_mail(
-                    subject_template_name, email_template_name, context, from_email,
-                    user_email, html_email_template_name=html_email_template_name,
-                )
-
-    form_class = ResetForm
-
-
 from .models import Profile
 
 
@@ -111,7 +68,7 @@ def register(request):
 @login_required
 def edit(request):
     if request.method == 'POST':
-        
+
         user_form = UserEditForm(instance=request.user, data=request.POST)
 
         profile_form = ProfileEditForm(instance=request.user.profile, data=request.POST, files=request.FILES)
@@ -119,9 +76,12 @@ def edit(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
+            messages.success(request, 'Profile updated successfully')
+        else:
+            messages.error(request, 'Error updating your profile')
 
     else:
-        user_form = UserEditForm()
+        user_form = UserEditForm(instance=request.user)
         profile_form = ProfileEditForm()
 
     return render(request,

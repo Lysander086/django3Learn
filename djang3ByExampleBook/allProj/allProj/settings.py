@@ -7,19 +7,21 @@ SECRET_KEY = ')*#xkrw+^ri@jtii0p_l49qsgfjcjg$r#t%shc#jz=u+2wa1**'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['127.0.0.1', 'mysite.com', 'localhost', ]
 
 # Application definition
 
+
 INSTALLED_APPS = [
-    'account.apps.AccountConfig', # order matters, must above django.contrib.admin
+    'account.apps.AccountConfig',  # order matters, must above django.contrib.admin
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_django',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -52,7 +54,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'allProj.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 import os
@@ -60,10 +61,9 @@ import os
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME':  os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -96,7 +96,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
@@ -108,6 +107,18 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'meida/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+# order matters
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'account.authentication.EmailAuthBackend',
+    'social_core.backends.facebook.FacebookOAuth2',
+]
+
+import allProj.appSecret as _as
+
+SOCIAL_AUTH_FACEBOOK_KEY = _as.facebook_appId  # Facebook App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = _as.facebook_appSecret  # Facebook App Secret
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']

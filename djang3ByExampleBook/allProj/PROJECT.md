@@ -1,7 +1,10 @@
-venv\Scripts\activate.bat
-
-
-dev env config 
+- run the dev serer
+    
+        python manage.py runserver_plus --cert-file cert.crt
+- site url: https://mysite.com:8000/
+  
+dev env config
+--- 
 - pip镜像设置命令
     
         pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
