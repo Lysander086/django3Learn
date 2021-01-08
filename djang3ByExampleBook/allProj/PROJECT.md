@@ -1,8 +1,17 @@
+run project
+---
 - run the dev serer
     
         python manage.py runserver_plus --cert-file cert.crt
+        
+        python manage.py runserver_plus --cert-file cert.crt 0.0.0.0:8000
+
 - site url: https://mysite.com:8000/
   
+dev process
+---
+- redirect url for facebook: https://mysite.com/social-auth/complete/facebook
+
 dev env config
 --- 
 - pip镜像设置命令

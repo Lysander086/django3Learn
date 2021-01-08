@@ -1,0 +1,12 @@
+django_taggit==1.2.0
+markdown==3.2.1
+psycopg2-binary==2.8.4
+django
+Pillow===7.0.0
+social-auth-app-django==3.1.0
+django-extensions==2.2.5
+# contains a debugger layer required by the RunServerPlus extension.
+werkzeug==0.16.0 
+# required to use the SSL/TLS functionality of RunServerPlus:
+pyOpenSSL==19.0.0 
+django-werkzeug-debugger-runserver==0.3.1
