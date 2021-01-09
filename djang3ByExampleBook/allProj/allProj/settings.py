@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'social_django',
     'werkzeug_debugger_runserver',    
     'django_extensions',
+    'images.apps.ImagesConfig',
 ]
 
 MIDDLEWARE = [
@@ -133,9 +134,11 @@ LOGOUT_URL = 'logout'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
+# Order matters
+# If a backend raises a PermissionDenied exception, authentication will immediately fail
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'account.authentication.EmailAuthBackend',
+    'account.authentication.EmailAuthBackend', # allows user to login via email/pwd and username/pwd
     'social_core.backends.facebook.FacebookOAuth2',
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.google.GoogleOAuth2',
