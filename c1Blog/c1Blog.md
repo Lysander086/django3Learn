@@ -1,1 +1,0 @@
-github repo [link](https://github.com/PacktPublishing/Django-3-by-Example`)
