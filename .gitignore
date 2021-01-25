@@ -117,4 +117,3 @@ ENV/
 **/node_modules/*
 .idea/
 
-**/migrations/*
